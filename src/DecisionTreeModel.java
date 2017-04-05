@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Decision Tree learning basic algorithm
@@ -18,8 +19,8 @@ public class DecisionTreeModel {
         boolean leafFlag  = true; //Whether is a leaf
         int     leafValue = 0xFFFFFFFF; //If is a leaf, this is a classification result.
         int     xFeaIdx   = 0xFFFFFFFF; //If not a leaf, which x_i choose to do the next decision.
-        ArrayList<String> xValues = null; //Ordered x_i's values.
-        ArrayList<DecisionTree> branch = null; //This node's branches, same order as xValues.
+        TreeSet<String>         xValues = null; //Ordered x_i's values.
+        ArrayList<DecisionTree> branch  = null; //This node's branches, same order as xValues.
     }
     
     /**
@@ -50,20 +51,57 @@ public class DecisionTreeModel {
     }
     
     /**
-     * Use dataSet, xFeaList and divMethod(with epcilon) to generate a tree.
-     * @return
+     * Generate a decision tree, need given a devision method.
+     * @param currData
+     * @param currFeaList
+     * @return a DecisionTree
      */
-    public DecisionTree treeGenerate(TrainStrDataSet currData, ArrayList<Integer> currFeaList) {
+    public DecisionTree treeGenerate(TrainStrDataSet currData, final ArrayList<Integer> currFeaList) {
         //Recursion process.
         assert(currData.rowNum > 0);
         DecisionTree retTree = new DecisionTree();
         
-        if() {
-            
+        if(currData.belongTo1Class()) { //Only one Y value in dataSet
+            retTree.leafFlag = true;
+            retTree.leafValue = currData.yDataList.get(0);
         }
-        else if(currFeaList.isEmpty()) {
+        else if(currFeaList.isEmpty()) { //alternative feature list is null
             retTree.leafFlag = true;
             retTree.leafValue = currData.getMaxYClass();
         }
+        else {
+            int selcFeaIdx = divMethod.selcFeaDevi(currData, currFeaList); //currList's index
+            if(selcFeaIdx == -1) {
+                retTree.leafFlag = true;
+                retTree.leafValue = currData.getMaxYClass();
+            }
+            else {
+                retTree.leafFlag = false;
+                retTree.xFeaIdx = currFeaList.get(selcFeaIdx); //X_i's i
+                retTree.xValues = currData.xColValuList[retTree.xFeaIdx];
+                
+                //generate the sub-tree
+                retTree.branch = new ArrayList<DecisionTree>();
+                @SuppressWarnings("unchecked")
+                ArrayList<Integer> nextFeaList = (ArrayList<Integer>) currFeaList.clone();
+                nextFeaList.remove(selcFeaIdx);
+                for(String strFeaValue : retTree.xValues) {
+                    TrainStrDataSet nextData = TrainStrDataSet.getSubDataSet(currData, retTree.xFeaIdx, strFeaValue);
+                    DecisionTree subTree = null;
+                    if(nextData.rowNum == 0) {
+                        subTree = new DecisionTree();
+                        subTree.leafFlag = true;
+                        subTree.leafValue = currData.getMaxYClass();
+                    }
+                    else {
+                        subTree = treeGenerate(nextData, nextFeaList);
+                    }
+                    retTree.branch.add(subTree);
+                }
+            }
+        }
+        
+        return retTree;
     }
+    
 }
