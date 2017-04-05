@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.TreeSet;
 
 /**
@@ -7,26 +6,42 @@ import java.util.TreeSet;
  */
 
 /**
- * @author Administrator
+ * @author Paul Yang
  *
  */
 public class TrainStrDataSet {
     int   rowNum    = 0;
     int   xColuNum  = 0;
     int   yClassNum = 0; //Range of  Y's value
-    int[] yData     = null; //Y_i
+    ArrayList<Integer>   yDataList    = null; //Y_i
     ArrayList<String[]>  xRowDataList = null; // X_i
     TreeSet<String[]>    xColValuList = null; // X_i's value range
     
     public int getMaxYClass() {
-        int[] statisY = new int[yClassNum];
+        assert(rowNum > 0);
         
-        for(int i = 0; i < rowNum; i++) {
-            assert(yData[i] < yClassNum);
-            statisY[ yData[i] ]++;
+        int[] statisY = new int[yClassNum]; //count every Y's value's number.
+        for(int i = 0; i < rowNum; i++) { //for every yDataList[]
+            int tmpY = yDataList.get(i);
+            assert(tmpY < yClassNum);
+            statisY[tmpY]++;
         }
         
-        for()
-        return 
+        ArrayList<Integer> maxYIdx = new ArrayList<Integer>(); //contain max Y's value list
+        int temMax = 0;
+        for(int i = 0; i < yClassNum; i++) {
+            if(temMax < statisY[i]){ //Find a bigger
+                maxYIdx.clear();
+                maxYIdx.add(i);
+                temMax = statisY[i];
+            }
+            else if(temMax == statisY[i]) { //Find a equal
+                maxYIdx.add(i);
+            }
+        }
+        
+        int rdmIdx = (int)( Math.random() * maxYIdx.size() );
+        
+        return maxYIdx.get(rdmIdx);
     }
 }
