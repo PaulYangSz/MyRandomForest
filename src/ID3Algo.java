@@ -52,8 +52,8 @@ public class ID3Algo extends DevisionMethod{
         }
         
         double H_DA = 0.0;
-        for(int i = 0; i < dataSet.xColValuList.get(feaAIdx).size(); i++) {
-            H_DA += ((double)subDi[xValIdx].rowNum / dataSet.rowNum) * Ent(subDi[xValIdx]);
+        for(int i = 0; i < xValIdx; i++) {
+            H_DA += ((double)subDi[i].rowNum / dataSet.rowNum) * Ent(subDi[i]);
         }
         
         gain = H_D - H_DA;
