@@ -15,12 +15,29 @@ public class DecisionTreeModel {
     DevisionMethod     divMethod = null; //Which method used to division the tree's node.
     ArrayList<DecisionTree> trainedTree = null; //Result decision tree.
 
-    public class DecisionTree {
+    public static class DecisionTree {
         boolean leafFlag  = true; //Whether is a leaf
         int     leafValue = 0xFFFFFFFF; //If is a leaf, this is a classification result.
         int     xFeaIdx   = 0xFFFFFFFF; //If not a leaf, which x_i choose to do the next decision.
         TreeSet<String>         xValues = null; //Ordered x_i's values.
         ArrayList<DecisionTree> branch  = null; //This node's branches, same order as xValues.
+        
+        public static void printTree(DecisionTree prtTree) {
+            System.out.println("Gen a tree: {{{" + prtTree);
+            if(prtTree.leafFlag) {
+                System.out.println("\tA leaf node, with Y = " + prtTree.leafValue);
+            }
+            else {
+                System.out.println("\tA branch node, with xFeaIdx: [" + prtTree.xFeaIdx);
+                int i = 0;
+                for(String banchName : prtTree.xValues) {
+                    System.out.println("\t\t" + banchName + "@" + prtTree.branch.get(i));
+                    i++;
+                }
+                System.out.println("\t]");
+            }
+            System.out.println("}}}");
+        }
     }
     
     /**
@@ -100,6 +117,10 @@ public class DecisionTreeModel {
                     retTree.branch.add(subTree);
                 }
             }
+        }
+        
+        if(DebugConfig.TRACE_TREE_GEN) {
+            DecisionTree.printTree(retTree);
         }
         
         return retTree;

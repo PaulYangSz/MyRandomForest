@@ -59,6 +59,13 @@ public class TrainStrDataSet {
     }
 
     @SuppressWarnings("unchecked")
+    /**
+     * Given selected feature and value, return matched sub data set.
+     * @param fromDataSet
+     * @param xFeaIdx
+     * @param strFeaValue
+     * @return a matched sub data set.
+     */
     public static TrainStrDataSet getSubDataSet(TrainStrDataSet fromDataSet, int xFeaIdx, String strFeaValue) {
         TrainStrDataSet subData = new TrainStrDataSet();
         
@@ -84,6 +91,10 @@ public class TrainStrDataSet {
         return subData;
     }
     
+    /**
+     * Construct from StrFileHelper
+     * @param strFH
+     */
     public TrainStrDataSet(StrFileHelper strFH) {
         //instant get some values
         rowNum = strFH.rowNum;
@@ -122,13 +133,21 @@ public class TrainStrDataSet {
         yClassNum = yValues.size();
     }
 
+    /**
+     * Construct from nothing, and be a nothing
+     */
     public TrainStrDataSet() {
         rowNum = -1;
         xColuNum = -1;
         yClassNum = -1;
     }
     
+    /**
+     * Print input TrainStrDataSet
+     * @param prtData
+     */
     public static void pirntTrainData (TrainStrDataSet prtData) {
+        System.out.println("====START======START=====");
         System.out.println("rowNum = " + prtData.rowNum);
         System.out.println("xColuNum = " + prtData.xColuNum);
         System.out.println("yClassNum = " + prtData.yClassNum);
@@ -139,5 +158,23 @@ public class TrainStrDataSet {
             System.out.print(prtData.xFeaNames[i] + ", ");
         }
         System.out.println("}");
+        
+        System.out.println("Each X_i's values:");
+        for(int i = 0; i < prtData.xColuNum; i++) {
+            System.out.print("[" + prtData.xFeaNames[i] + ": ");
+            for(String strVal : prtData.xColValuList.get(i)) {
+                System.out.print(strVal + ", ");
+            }
+            System.out.println("]");
+        }
+        
+        System.out.println("Data:");
+        for(int i = 0; i < prtData.rowNum; i++) {
+            for(int j = 0; j < prtData.xColuNum; j++) {
+                System.out.print(prtData.xRowDataList.get(i)[j] + "\t");
+            }
+            System.out.println("@ " + prtData.yDataList.get(i));
+        }
+        System.out.println("====END========END========END=======");
     }
 }
