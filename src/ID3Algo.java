@@ -58,6 +58,9 @@ public class ID3Algo extends DevisionMethod{
         
         gain = H_D - H_DA;
         
+        if(DebugConfig.TRACE_GAIN) {
+            System.out.println("++ID3++G(D," + feaAIdx + ") = " + gain);
+        }
         return gain;
     }
 
