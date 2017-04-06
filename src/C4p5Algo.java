@@ -36,7 +36,7 @@ public class C4p5Algo extends ID3Algo{
         double IV_a = 0.0;
         double H_DA = 0.0;
         for(int i = 0; i < dataSet.xColValuList.get(feaAIdx).size(); i++) {
-            double tmpDiv = subDi[xValIdx].rowNum / dataSet.rowNum;
+            double tmpDiv = (double)subDi[xValIdx].rowNum / dataSet.rowNum;
             H_DA += tmpDiv * Ent(subDi[xValIdx]);
             IV_a -= tmpDiv * ( Math.log(tmpDiv) / Math.log(2) );
         }

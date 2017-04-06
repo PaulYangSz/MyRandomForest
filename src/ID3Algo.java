@@ -28,7 +28,7 @@ public class ID3Algo extends DevisionMethod{
         double tmpDi = 0.0;
         double entropy = 0.0;
         for(int yValue_i = 0; yValue_i < dataSet.yClassNum; yValue_i++) {
-            tmpDi = yiCount[yValue_i] / dataSet.rowNum;
+            tmpDi = (double)yiCount[yValue_i] / dataSet.rowNum;
             entropy -= tmpDi * Math.log(tmpDi) / Math.log(2);
         }
         
@@ -53,7 +53,7 @@ public class ID3Algo extends DevisionMethod{
         
         double H_DA = 0.0;
         for(int i = 0; i < dataSet.xColValuList.get(feaAIdx).size(); i++) {
-            H_DA += (subDi[xValIdx].rowNum / dataSet.rowNum) * Ent(subDi[xValIdx]);
+            H_DA += ((double)subDi[xValIdx].rowNum / dataSet.rowNum) * Ent(subDi[xValIdx]);
         }
         
         gain = H_D - H_DA;
