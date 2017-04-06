@@ -78,7 +78,8 @@ public class DecisionTreeModel {
             else {
                 retTree.leafFlag = false;
                 retTree.xFeaIdx = currFeaList.get(selcFeaIdx); //X_i's i
-                retTree.xValues = currData.xColValuList[retTree.xFeaIdx];
+                retTree.xValues = currData.xColValuList.get(retTree.xFeaIdx);
+                //retTree.xValues = currData.xColValuList[retTree.xFeaIdx];
                 
                 //generate the sub-tree
                 retTree.branch = new ArrayList<DecisionTree>();

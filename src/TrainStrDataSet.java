@@ -17,7 +17,7 @@ public class TrainStrDataSet {
     String[] xFeaNames = null; //1st line, X_i's names
     ArrayList<Integer>   yDataList    = null; //Y_i
     ArrayList<String[]>  xRowDataList = null; // X_i
-    TreeSet<String>[]    xColValuList = null; // X_i's value range
+    ArrayList< TreeSet<String> >    xColValuList = null; // X_i's value range
     
     public boolean belongTo1Class() {
         boolean ret = true;
@@ -82,5 +82,62 @@ public class TrainStrDataSet {
         subData.rowNum = subData.yDataList.size();
         
         return subData;
+    }
+    
+    public TrainStrDataSet(StrFileHelper strFH) {
+        //instant get some values
+        rowNum = strFH.rowNum;
+        xColuNum = strFH.columNum - 1;
+        
+        //Cut out the X_i's names
+        xFeaNames = new String[xColuNum];
+        System.arraycopy(strFH.firstNames, 0, xFeaNames, 0, xColuNum);
+        
+        //begin read and copy out other values
+        xRowDataList = new ArrayList<String[]>();
+        yDataList    = new ArrayList<Integer>();
+        xColValuList = new ArrayList< TreeSet<String> >();
+        for(int i = 0; i < xColuNum; i++) {
+            TreeSet<String> xColValuTree = new TreeSet<String>();
+            xColValuList.add(xColValuTree);
+        }
+        
+        TreeSet<Integer> yValues = new TreeSet<Integer>();
+        for(int iLine = 0; iLine < rowNum; iLine++) {
+            String[] x_i = new String[xColuNum];
+            int y_i = 0;
+            
+            //Add x_i
+            System.arraycopy(strFH.data.get(iLine), 0, x_i, 0, xColuNum);
+            xRowDataList.add(x_i);
+            for(int i = 0; i < xColuNum; i++) {
+                xColValuList.get(i).add(x_i[i]);
+            }
+            
+            //Add y_i
+            y_i = Integer.parseInt(strFH.data.get(iLine)[xColuNum]);
+            yDataList.add(y_i);
+            yValues.add(y_i);
+        }
+        yClassNum = yValues.size();
+    }
+
+    public TrainStrDataSet() {
+        rowNum = -1;
+        xColuNum = -1;
+        yClassNum = -1;
+    }
+    
+    public static void pirntTrainData (TrainStrDataSet prtData) {
+        System.out.println("rowNum = " + prtData.rowNum);
+        System.out.println("xColuNum = " + prtData.xColuNum);
+        System.out.println("yClassNum = " + prtData.yClassNum);
+        
+        assert(prtData.xFeaNames.length == prtData.xColuNum);
+        System.out.print("xName:{");
+        for(int i = 0; i < prtData.xColuNum; i++){
+            System.out.print(prtData.xFeaNames[i] + ", ");
+        }
+        System.out.println("}");
     }
 }
