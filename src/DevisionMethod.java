@@ -25,23 +25,5 @@ public abstract class DevisionMethod {
      * @param alterFeaList
      * @return Index of selected feature --- index of alterFeaList[index].
      */
-    public int selcFeaDevi(TrainStrDataSet dataSet, ArrayList<Integer> alterFeaList) {
-        double gMax = 0.0;
-        double tmpG = 0.0;
-        int retAIdx = -1;
-        
-        for(int i = 0; i < alterFeaList.size(); i++) {
-            tmpG = calcG(dataSet, alterFeaList.get(i).intValue());
-            if(gMax < tmpG){
-                gMax = tmpG;
-                retAIdx = i;
-            }
-        }
-        
-        if(gMax < epsilon) {
-            retAIdx = -1;
-        }
-        
-        return retAIdx;
-    }
+    public abstract int selcFeaDevi(TrainStrDataSet dataSet, ArrayList<Integer> alterFeaList);
 }
