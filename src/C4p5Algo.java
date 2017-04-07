@@ -35,10 +35,10 @@ public class C4p5Algo extends ID3Algo{
         //And also calculate the intrinsic value --- IV(a)
         double IV_a = 0.0;
         double H_DA = 0.0;
-        for(int i = 0; i < dataSet.xColValuList.get(feaAIdx).size(); i++) {
-            double tmpDiv = (double)subDi[xValIdx].rowNum / dataSet.rowNum; // Maybe subDi's rowNum=0
+        for(int i = 0; i < xValIdx; i++) {
+            double tmpDiv = (double)subDi[i].rowNum / dataSet.rowNum; // Maybe subDi's rowNum=0
             if(tmpDiv != 0) {
-                H_DA += tmpDiv * Ent(subDi[xValIdx]);
+                H_DA += tmpDiv * Ent(subDi[i]);
                 IV_a -= tmpDiv * ( Math.log(tmpDiv) / Math.log(2) );
             } 
             else {
@@ -65,6 +65,9 @@ public class C4p5Algo extends ID3Algo{
         double[] gainArr = new double[alterFeaList.size()];
         double meanGain = 0.0;
         for(int i = 0; i < alterFeaList.size(); i++) {
+            /**
+             * ID3 calculate the Gain(D, a). [Hint!]: not need calc Ent(D) in this loop.
+             */
             gainArr[i] = super.calcG(dataSet, alterFeaList.get(i).intValue()); //ID3's Gain
             meanGain += gainArr[i];
         }
