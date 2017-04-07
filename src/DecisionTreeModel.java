@@ -31,7 +31,7 @@ public class DecisionTreeModel {
                 System.out.println("\tA branch node, with xFeaIdx: [" + prtTree.xFeaIdx);
                 int i = 0;
                 for(String banchName : prtTree.xValues) {
-                    System.out.println("\t\t" + banchName + "@" + prtTree.branch.get(i));
+                    System.out.println("\t\t\"" + banchName + "\" \t@" + prtTree.branch.get(i));
                     i++;
                 }
                 System.out.println("\t]");

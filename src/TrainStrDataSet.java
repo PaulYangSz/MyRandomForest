@@ -169,13 +169,13 @@ public class TrainStrDataSet {
             System.out.println("]");
         }
         
-        System.out.println("Data:");
-        for(int i = 0; i < prtData.rowNum; i++) {
-            for(int j = 0; j < prtData.xColuNum; j++) {
-                System.out.print(prtData.xRowDataList.get(i)[j] + "\t");
-            }
-            System.out.println("@ " + prtData.yDataList.get(i));
-        }
+//        System.out.println("Data:");
+//        for(int i = 0; i < prtData.rowNum; i++) {
+//            for(int j = 0; j < prtData.xColuNum; j++) {
+//                System.out.print(prtData.xRowDataList.get(i)[j] + "\t");
+//            }
+//            System.out.println("@ " + prtData.yDataList.get(i));
+//        }
         System.out.println("====END========END========END=======");
     }
 }
