@@ -70,6 +70,12 @@ public class ID3Algo extends DevisionMethod{
         if(DebugConfig.TRACE_GAIN) {
             System.out.println("++ID3++G(D," + feaAIdx + ") = " + gain);
         }
+        if(StatisInfo.STATIS_G_FLAG) {
+            StatisInfo.maxGain = StatisInfo.maxGain < gain ? gain : StatisInfo.maxGain;
+            StatisInfo.minGain = StatisInfo.minGain > gain ? gain : StatisInfo.minGain;
+            StatisInfo.sumGain += gain;
+            StatisInfo.numGain++;
+        }
         return gain;
     }
 

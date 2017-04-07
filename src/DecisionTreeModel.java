@@ -137,6 +137,12 @@ public class DecisionTreeModel {
      */
     public void startTraining() {
         trainedTree = treeGenerate(dataSet, xFeaList);
+        if(StatisInfo.STATIS_G_FLAG) {
+            StatisInfo.meanGain = StatisInfo.sumGain / StatisInfo.numGain;
+            StatisInfo.meanGratio = StatisInfo.sumGratio / StatisInfo.numGratio;
+            System.out.println("Gain: MAX="+StatisInfo.maxGain + ", MIN="+StatisInfo.minGain + ", NUM="+StatisInfo.numGain + ", SUM="+StatisInfo.sumGain + ", MEAN="+StatisInfo.meanGain);
+            System.out.println("G-Ratio: MAX="+StatisInfo.maxGratio + ", MIN="+StatisInfo.minGratio + ", NUM="+StatisInfo.numGratio + ", SUM="+StatisInfo.sumGratio + ", MEAN="+StatisInfo.meanGratio);
+        }
     }
     
     /**

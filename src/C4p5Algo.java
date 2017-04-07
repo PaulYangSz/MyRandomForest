@@ -59,6 +59,12 @@ public class C4p5Algo extends ID3Algo{
         if(DebugConfig.TRACE_GAIN) {
             System.out.println("++C4.5++G_r(D," + feaAIdx + ") = " + ratio);
         }
+        if(StatisInfo.STATIS_G_FLAG) {
+            StatisInfo.maxGratio = StatisInfo.maxGratio < ratio ? ratio : StatisInfo.maxGratio;
+            StatisInfo.minGratio = StatisInfo.minGratio > ratio ? ratio : StatisInfo.minGratio;
+            StatisInfo.sumGratio += ratio;
+            StatisInfo.numGratio++;
+        }
         return ratio;
     }
     
