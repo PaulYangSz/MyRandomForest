@@ -18,6 +18,7 @@ public class TrainStrDataSet {
     ArrayList<Integer>   yDataList    = null; //Y_i
     ArrayList<String[]>  xRowDataList = null; // X_i
     ArrayList< TreeSet<String> >    xColValuList = null; // X_i's value range
+    static int maxRowNum = -1;
     
     public boolean belongTo1Class() {
         boolean ret = true;
@@ -99,6 +100,9 @@ public class TrainStrDataSet {
     public TrainStrDataSet(StrFileHelper strFH) {
         //instant get some values
         rowNum = strFH.rowNum;
+        if(maxRowNum == -1) {
+            maxRowNum = rowNum;
+        }
         xColuNum = strFH.columNum - 1;
         
         //Cut out the X_i's names

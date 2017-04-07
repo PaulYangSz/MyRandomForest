@@ -114,12 +114,18 @@ public class DecisionTreeModel {
                     else {
                         subTree = treeGenerate(nextData, nextFeaList);
                     }
+                    
+                    if(DebugConfig.TRACE_TREE_GEN) {
+                        DecisionTree.printTree(subTree);
+                    }
+                    
                     retTree.branch.add(subTree);
                 }
             }
         }
         
-        if(DebugConfig.TRACE_TREE_GEN) {
+        if(DebugConfig.TRACE_TREE_GEN && currData.rowNum == TrainStrDataSet.maxRowNum) {
+            System.out.println(TrainStrDataSet.maxRowNum + " rows data's Root-Tree###");
             DecisionTree.printTree(retTree);
         }
         
