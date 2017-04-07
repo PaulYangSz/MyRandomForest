@@ -87,7 +87,7 @@ public class DecisionTreeModel {
             retTree.leafValue = currData.getMaxYClass();
         }
         else {
-            int selcFeaIdx = divMethod.selcFeaDevi(currData, currFeaList); //currList's index
+            int selcFeaIdx = divMethod.selcFeaDevi(currData, currFeaList); //Call ID3 or C4.5, return currList's index.
             if(selcFeaIdx == -1) {
                 retTree.leafFlag = true;
                 retTree.leafValue = currData.getMaxYClass();

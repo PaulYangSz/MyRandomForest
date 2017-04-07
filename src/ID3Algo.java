@@ -20,6 +20,10 @@ public class ID3Algo extends DevisionMethod{
      * @return Entropy
      */
     public static double Ent(TrainStrDataSet dataSet) {
+        if(dataSet.rowNum == 0) { //Maybe a sub data set is null
+            return 0.0;
+        }
+        
         int[] yiCount = new int[dataSet.yClassNum];
         for(int i = 0; i < dataSet.rowNum; i++) {
             yiCount[dataSet.yDataList.get(i)]++;
@@ -28,8 +32,13 @@ public class ID3Algo extends DevisionMethod{
         double tmpDi = 0.0;
         double entropy = 0.0;
         for(int yValue_i = 0; yValue_i < dataSet.yClassNum; yValue_i++) {
-            tmpDi = (double)yiCount[yValue_i] / dataSet.rowNum;
-            entropy -= tmpDi * Math.log(tmpDi) / Math.log(2);
+            tmpDi = (double)yiCount[yValue_i] / dataSet.rowNum; //Maybe y_i's count = 0 !!!
+            if(tmpDi != 0) {
+                entropy -= tmpDi * Math.log(tmpDi) / Math.log(2);
+            }
+            else {
+                entropy -= 0.0;
+            }
         }
         
         return entropy;
