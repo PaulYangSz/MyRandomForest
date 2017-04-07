@@ -48,7 +48,13 @@ public class C4p5Algo extends ID3Algo{
         }
         
         gain = H_D - H_DA;
-        ratio = gain / IV_a;
+        if(gain != 0) {
+            assert(IV_a != 0);
+            ratio = gain / IV_a;
+        }
+        else {
+            ratio = 0.0;
+        }
 
         if(DebugConfig.TRACE_GAIN) {
             System.out.println("++C4.5++G_r(D," + feaAIdx + ") = " + ratio);
