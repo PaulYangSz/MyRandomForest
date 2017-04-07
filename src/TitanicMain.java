@@ -38,7 +38,7 @@ public class TitanicMain {
          */
         DecisionTreeModel deciTreeModel = null;
         deciTreeModel = new DecisionTreeModel(trainSet, "", c4p5);
-        deciTreeModel.treeGenerate(trainSet, deciTreeModel.xFeaList);
+        deciTreeModel.startTraining();
     }
 
 }

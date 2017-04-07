@@ -10,10 +10,10 @@ import java.util.TreeSet;
  *
  */
 public class DecisionTreeModel {
-    TrainStrDataSet    dataSet   = null; //Training data set.
-    ArrayList<Integer> xFeaList  = null; //Selected features used to generate a decision tree.
-    DevisionMethod     divMethod = null; //Which method used to division the tree's node.
-    ArrayList<DecisionTree> trainedTree = null; //Result decision tree.
+    TrainStrDataSet    dataSet     = null; //Training data set.
+    ArrayList<Integer> xFeaList    = null; //Selected features used to generate a decision tree.
+    DevisionMethod     divMethod   = null; //Which method used to division the tree's node.
+    DecisionTree       trainedTree = null; //Result decision tree.
 
     public static class DecisionTree {
         boolean leafFlag  = true; //Whether is a leaf
@@ -64,7 +64,7 @@ public class DecisionTreeModel {
         
         divMethod = giveDivMed;
         
-        trainedTree = new ArrayList<DecisionTree>();
+        trainedTree = null; //Call start train to generate.
     }
     
     /**
@@ -126,4 +126,32 @@ public class DecisionTreeModel {
         return retTree;
     }
     
+    /**
+     * Use the training data and selected feature list to generate a decision tree.
+     */
+    public void startTraining() {
+        trainedTree = treeGenerate(dataSet, xFeaList);
+    }
+    
+    /**
+     * Use the trained decision tree to predict the input x_i[]'s y_i
+     */
+    public int doPredict(String[] inputX) {
+        //recursion the trained tree.
+        DecisionTree  recuTree = trainedTree;
+        while(recuTree.leafFlag != true) {
+            String selcFeaVal = inputX[recuTree.xFeaIdx];
+            int banchIdx = 0;
+            for(String xVal : recuTree.xValues) {
+                if(xVal.equals(selcFeaVal)) {
+                    recuTree = recuTree.branch.get(banchIdx);
+                }
+                else {
+                    banchIdx++;
+                }
+            }
+        }
+        
+        return recuTree.leafValue;
+    }
 }
