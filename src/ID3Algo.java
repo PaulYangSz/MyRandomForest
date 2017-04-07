@@ -80,6 +80,9 @@ public class ID3Algo extends DevisionMethod{
         int retAIdx = -1;
         
         for(int i = 0; i < alterFeaList.size(); i++) {
+            /**
+             * [Hint!]: not need calc Ent(D) in this loop.
+             */
             tmpG = calcG(dataSet, alterFeaList.get(i).intValue());
             if(gMax < tmpG){
                 gMax = tmpG;

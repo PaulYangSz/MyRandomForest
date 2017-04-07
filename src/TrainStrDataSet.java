@@ -61,6 +61,7 @@ public class TrainStrDataSet {
     @SuppressWarnings("unchecked")
     /**
      * Given selected feature and value, return matched sub data set.
+     * [Hint!]: Can code another method to get every x_i's sub data set in one loop.
      * @param fromDataSet
      * @param xFeaIdx
      * @param strFeaValue
