@@ -15,6 +15,8 @@ public class TitanicMain {
      * @param args
      */
     public static void main(String[] args) {
+        DecisionTreeModel deciTreeModel = null;
+        RandomForestModel rdmForestModel = null;
         
         /**
          * 1st, read processed training data to generate the FileHelper.
@@ -33,15 +35,20 @@ public class TitanicMain {
          * 3rd, select a division method, which means ID3 or C4.5 and so on.
          */
         @SuppressWarnings("unused")
-        ID3Algo id3 = new ID3Algo(0.14);
+        ID3Algo id3 = new ID3Algo(-0.2);
         C4p5Algo c4p5 = new C4p5Algo(-0.15);
         
         /**
          * 4th, construct a decision tree model, and train it.
          */
-        DecisionTreeModel deciTreeModel = null;
-        deciTreeModel = new DecisionTreeModel(trainSet, "", c4p5);
-        deciTreeModel.startTraining();
+        if(DebugConfig.USE_RANDOM_FOREST) {
+            rdmForestModel = new RandomForestModel(trainSet, "", c4p5);
+            rdmForestModel.genRandomForest(101);
+        }
+        else {
+            deciTreeModel = new DecisionTreeModel(trainSet, "", c4p5);
+            deciTreeModel.startTraining();
+        }
         
         /**
          * 5th, predict the original training data.
@@ -49,7 +56,13 @@ public class TitanicMain {
         int corrNum = 0;
         double corrRate = 0.0;
         for(int i = 0; i < trainSet.rowNum; i++) {
-            int tmpY = deciTreeModel.doPredict(trainSet.xRowDataList.get(i));
+            int tmpY = -1;
+            if(DebugConfig.USE_RANDOM_FOREST) {
+                tmpY = rdmForestModel.doPredict(trainSet.xRowDataList.get(i));
+            }
+            else {
+                tmpY = deciTreeModel.doPredict(trainSet.xRowDataList.get(i));
+            }
             if(tmpY == trainSet.yDataList.get(i)) {
                 corrNum++;
             }
@@ -70,7 +83,12 @@ public class TitanicMain {
         int[] passId = new int[testData.data.size()];
         for(int i = 0; i < testData.data.size(); i++) {
             passId[i] = 892 + i;
-            yResult[i] = deciTreeModel.doPredict(testData.data.get(i));
+            if(DebugConfig.USE_RANDOM_FOREST) {
+                yResult[i] = rdmForestModel.doPredict(testData.data.get(i));
+            }
+            else {
+                yResult[i] = deciTreeModel.doPredict(testData.data.get(i));
+            }
         }
 
         Date now = new Date();

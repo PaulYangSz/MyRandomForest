@@ -12,6 +12,7 @@ public abstract class DebugConfig {
     public static final boolean PRINT_EPSILON = false;
     public static final boolean TRACE_TREE_GEN = false;
     public static final boolean TRACE_GAIN = false;
+    public static final boolean USE_RANDOM_FOREST = true;
 }
 
 class StatisInfo {

@@ -41,22 +41,7 @@ public class TrainStrDataSet {
             statisY[yDataList.get(i).intValue()]++;
         }
         
-        ArrayList<Integer> maxYIdx = new ArrayList<Integer>(); //contain max Y's value list
-        int temMax = 0;
-        for(int i = 0; i < yClassNum; i++) {
-            if(temMax < statisY[i]){ //Find a bigger
-                maxYIdx.clear();
-                maxYIdx.add(i);
-                temMax = statisY[i];
-            }
-            else if(temMax == statisY[i]) { //Find a equal
-                maxYIdx.add(i);
-            }
-        }
-        
-        int rdmIdx = (int)( Math.random() * maxYIdx.size() );
-        
-        return maxYIdx.get(rdmIdx);
+        return MyMath.getMaxArrIdx(statisY);
     }
 
     @SuppressWarnings("unchecked")
@@ -181,5 +166,30 @@ public class TrainStrDataSet {
 //            System.out.println("@ " + prtData.yDataList.get(i));
 //        }
         System.out.println("====END========END========END=======");
+    }
+    
+    public static TrainStrDataSet genSameRowData(TrainStrDataSet origData) {
+        TrainStrDataSet retDataSet = new TrainStrDataSet();
+        
+        // Column info will not change.
+        retDataSet.xColuNum = origData.xColuNum;
+        retDataSet.yClassNum = origData.yClassNum;
+        retDataSet.xFeaNames = origData.xFeaNames;
+        retDataSet.xColValuList = origData.xColValuList;
+        
+        //Row number also not change
+        retDataSet.rowNum = origData.rowNum;
+        
+        //Random to get every row data.
+        retDataSet.xRowDataList = new ArrayList<String[]>();
+        retDataSet.yDataList    = new ArrayList<Integer>();
+        int rdmIdx = 0;
+        for(int rowI = 0; rowI < origData.rowNum; rowI++) {
+            rdmIdx = (int) (Math.random() * origData.rowNum);
+            retDataSet.xRowDataList.add( origData.xRowDataList.get(rdmIdx) );
+            retDataSet.yDataList.add( origData.yDataList.get(rdmIdx) );
+        }
+        
+        return retDataSet;
     }
 }
