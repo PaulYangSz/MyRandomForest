@@ -54,9 +54,9 @@ public class TitanicMain {
                 corrNum++;
             }
             else {
+                //System.out.printf("Wrong predict=%d Y=%d, X(%d)\n", tmpY, trainSet.yDataList.get(i), i);
                 //System.out.println(trainSet.xRowDataList.get(i) + "");
             }
-            System.out.printf("Wrong predict=%d Y=%d, X(%d)\n", tmpY, trainSet.yDataList.get(i), i);
         }
         corrRate = (double)corrNum / trainSet.rowNum;
         System.out.println("Predict original training data, Rate: " + corrRate);

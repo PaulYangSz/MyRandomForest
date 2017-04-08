@@ -154,13 +154,20 @@ public class DecisionTreeModel {
         while(recuTree.leafFlag != true) {
             String selcFeaVal = inputX[recuTree.xFeaIdx];
             int banchIdx = 0;
+            boolean isMatch = false;
             for(String xVal : recuTree.xValues) {
                 if(xVal.equals(selcFeaVal)) {
                     recuTree = recuTree.branch.get(banchIdx);
+                    isMatch = true;
+                    break;
                 }
                 else {
                     banchIdx++;
                 }
+            }
+            if(isMatch == false) {
+                System.out.println("Can't find X["+ dataSet.xFeaNames[recuTree.xFeaIdx] +"] value "+ selcFeaVal + " in tree" );
+                recuTree = recuTree.branch.get(banchIdx-1);
             }
         }
         
