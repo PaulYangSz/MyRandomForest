@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Predict the Kaggle-Titanic problem.
  */
@@ -17,7 +20,7 @@ public class TitanicMain {
          * 1st, read processed training data to generate the FileHelper.
          */
         StrFileHelper readData = null;
-        readData = new StrFileHelper("./data/kaggle/gen_train_str_data.csv");
+        readData = new StrFileHelper("./data/kaggle/gen_train_AgeFare.csv");
 
         /**
          * 2nd, save FileHelper to a TrainStrDataSet.
@@ -31,7 +34,7 @@ public class TitanicMain {
          */
         @SuppressWarnings("unused")
         ID3Algo id3 = new ID3Algo(0.14);
-        C4p5Algo c4p5 = new C4p5Algo(0.23);
+        C4p5Algo c4p5 = new C4p5Algo(-0.15);
         
         /**
          * 4th, construct a decision tree model, and train it.
@@ -51,12 +54,28 @@ public class TitanicMain {
                 corrNum++;
             }
             else {
-                System.out.printf("Wrong predict=%d Y=%d, X(%d)\n", tmpY, trainSet.yDataList.get(i), i);
                 //System.out.println(trainSet.xRowDataList.get(i) + "");
             }
+            System.out.printf("Wrong predict=%d Y=%d, X(%d)\n", tmpY, trainSet.yDataList.get(i), i);
         }
         corrRate = (double)corrNum / trainSet.rowNum;
         System.out.println("Predict original training data, Rate: " + corrRate);
+        
+        /**
+         * 6th, predict the test data and generate the submission CSV data file.
+         */
+        StrFileHelper testData = null;
+        testData = new StrFileHelper("./data/kaggle/gen_test_AgeFare.csv");
+        int[] yResult = new int[testData.data.size()];
+        int[] passId = new int[testData.data.size()];
+        for(int i = 0; i < testData.data.size(); i++) {
+            passId[i] = 892 + i;
+            yResult[i] = deciTreeModel.doPredict(testData.data.get(i));
+        }
+
+        Date now = new Date();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy_MM_dd-HH_mm");
+        StrFileHelper.writeToFile("PassengerId,Survived", passId, yResult, "./data/kaggle/Yang_submit-" + dateformat.format(now) + ".csv");
     }
 
 }
